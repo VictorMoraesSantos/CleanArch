@@ -13,15 +13,15 @@ namespace CleanArch.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task<Product> GetProductCategoryAsync(int? id)
-        {
-            var product = await _context.Products.Include(c => c.Category)
-                                                   .SingleOrDefaultAsync(p => p.Id == id);
+        //public async Task<Product> GetProductCategoryAsync(int? id)
+        //{
+        //    var product = await _context.Products.Include(c => c.Category)
+        //                                           .SingleOrDefaultAsync(p => p.Id == id);
 
-            return product!;
-        }
+        //    return product!;
+        //}
 
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             var products = await _context.Products.ToListAsync();
 
@@ -30,7 +30,9 @@ namespace CleanArch.Infra.Data.Repositories
 
         public async Task<Product> GetByIdAsync(int? id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            // var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.Include(c => c.Category)
+                                                 .SingleOrDefaultAsync(p => p.Id == id);
 
             return product!;
         }
